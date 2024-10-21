@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">MazeSolver</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="maze_1">Maze 1</string>
+    <string name="maze_2">Maze 2</string>
+    <string name="_02d">%02d</string>
+    <string name="start_timer">Start Timer</string>
+    <string name="total_path_clicks">Total path clicks: %1$s</string>
+    <string name="no_joke_available">No joke available</string>
+    <string name="no_delivery_available">No delivery available</string>
+    <string name="unknown_joke_type">Unknown joke type</string>
+    <string name="failed_to_retrieve_joke">Failed to retrieve joke</string>
+    <string name="get_joke">Get Joke</string>
+    <string name="programming_joke_will_appear_here">Programming Joke will appear here</string>
+    <string name="_00_00_00">00:00:00</string>
+    <string name="start">Start</string>
+</resources>
