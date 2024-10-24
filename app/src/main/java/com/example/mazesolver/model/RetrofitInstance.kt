@@ -1,11 +1,9 @@
-package com.example.mazesolver
+package com.example.mazesolver.model
 
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.POST
 import retrofit2.http.Query
 
 object RetrofitInstance {
@@ -24,10 +22,10 @@ interface ApiService {
     fun getProgrammingJoke(
         @Query("format") format: String = "json",
         @Query("blacklistFlags") blacklistFlags: String = "nsfw,religious,political,racist,sexist,explicit"
-    ): Call<JokeResponse>
+    ): Call<Data>
 }
 
-
+/*
 
 data class JokeResponse(
     val error: Boolean,
@@ -50,3 +48,4 @@ data class Flags(
     val sexist: Boolean,
     val explicit: Boolean
 )
+*/

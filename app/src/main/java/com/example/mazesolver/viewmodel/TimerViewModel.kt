@@ -1,11 +1,11 @@
-package com.example.mazesolver
+package com.example.mazesolver.viewmodel
 
 import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class TimerModel : ViewModel() {
+class TimerViewModel : ViewModel() {
     private val _time = MutableLiveData(10L)
     val time: LiveData<Long> = _time
 

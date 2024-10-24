@@ -1,7 +1,6 @@
 package com.example.mazesolver.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,14 +28,13 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import com.example.mazesolver.FlipMaze
-import com.example.mazesolver.MazeViewModel
 import com.example.mazesolver.R
-import com.example.mazesolver.TimerModel
-import com.example.mazesolver.ViewMaze
+import com.example.mazesolver.viewmodel.MazeViewModel
+import com.example.mazesolver.viewmodel.TimerViewModel
 
 
 class HomeFragment : Fragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,14 +42,10 @@ class HomeFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
 
-                val timerModel = ViewModelProvider(this@HomeFragment).get(TimerModel::class.java)
-
-                 val mazeViewModel: MazeViewModel by activityViewModels()
-                Log.d("MazeDebug", "MazeViewModel created")
-
+                val mazeViewModel: MazeViewModel by activityViewModels()
                 val maze by mazeViewModel.maze.observeAsState(emptyArray())
+                val flipped by mazeViewModel.Flipped.observeAsState(false)
 
-                val Flipped by mazeViewModel.Flipped.observeAsState(false)
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -61,31 +55,31 @@ class HomeFragment : Fragment() {
                 ) {
                     Button(
                         onClick = {
-                        mazeViewModel.generateMaze(mazeType = 1)
-                        Log.d("MazeDebug", "Maze 2 generated.")
-                    },
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = colorResource(id = R.color.purple_500),
-                            contentColor = Color.White
-                        )) {
-                        Text(text = stringResource(R.string.maze_1))
-                    }
-
-                    Button(
-                        onClick = {
-                            mazeViewModel.generateMaze(mazeType = 2)
-                            Log.d("MazeDebug", "Maze 2 generated.")
+                            mazeViewModel.generateMaze1()
                         },
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = colorResource(id = R.color.purple_500),
                             contentColor = Color.White
                         )
-                        ) {
+                    ) {
+                        Text(text = stringResource(R.string.maze_1))
+                    }
+
+                    Button(
+                        onClick = {
+                            mazeViewModel.generateMaze2()
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = colorResource(id = R.color.purple_500),
+                            contentColor = Color.White
+                        )
+                    ) {
                         Text(text = stringResource(R.string.maze_2))
                     }
+
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    if (Flipped) {
+                    if (flipped) {
                         FlipMaze(maze) { rowIndex, colIndex ->
                             mazeViewModel.toggleCell(rowIndex, colIndex)
                         }
@@ -95,29 +89,26 @@ class HomeFragment : Fragment() {
                 }
 
                 TimerScreen(
-                    viewModel = timerModel,
                     onTimerFinish = {
                         mazeViewModel.flipMaze()
                     }
                 )
-
             }
         }
     }
 
-
     @Composable
-    fun TimerScreen(viewModel: TimerModel, onTimerFinish: () -> Unit) {
+    fun TimerScreen(onTimerFinish: () -> Unit) {
+        val viewModel = ViewModelProvider(this@HomeFragment).get(TimerViewModel::class.java)
         val time by viewModel.time.observeAsState(10L)
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
-
+                .padding(16.dp)
         ) {
             Text(
-                text = String.format(stringResource(R.string._02d), time),
+                text = String.format("%02d", time),
                 style = TextStyle(fontSize = 50.sp)
             )
 
@@ -130,10 +121,9 @@ class HomeFragment : Fragment() {
                     backgroundColor = colorResource(id = R.color.purple_500),
                     contentColor = Color.White
                 )
-                ) {
+            ) {
                 Text(stringResource(R.string.start_timer))
             }
         }
     }
-
 }
